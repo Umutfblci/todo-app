@@ -1,8 +1,6 @@
 const fs = require("fs");
-// Path modülü kullanmak daha güvenlidir
 let tasks = JSON.parse(fs.readFileSync(`${__dirname}/../tasks.json`));
 
-// BAŞINA exports EKLEDİK
 exports.getAllTasks = (req, res) => {
   res.status(200).json({
     status: "succesful",
@@ -67,7 +65,6 @@ exports.patchTask = (req, res) => {
     return res.status(404).json({ status: "fail", message: "invalid id" });
   }
 
-  // DÜZELTME: exports.updatedTask DEĞİL, const updatedTask
   const updatedTask = { ...tasks[index], ...req.body };
   tasks[index] = updatedTask;
 

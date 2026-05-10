@@ -1,7 +1,6 @@
 const express = require("express");
 const taskRouter = require("./routes/taskRoute");
 const app = express();
-// FUNCTİONS
 
 //ROUTES
 app.use(express.json());
