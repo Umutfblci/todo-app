@@ -1,0 +1,17 @@
+# Bağımlılıklar (En önemlisi!)
+node_modules/
+
+# Veri dosyaları (Kendi girdiğin görevleri başkası görmesin diyorsan)
+tasks.json
+
+# Ortam değişkenleri (İleride kullanacaksın)
+.env
+
+# İşletim sistemi kalıntıları
+.DS_Store
+Thumbs.db
+
+# Log dosyaları
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
