@@ -54,7 +54,7 @@ export default function Home() {
             Task Tracker
           </h1>
           <p className="mt-2 text-[var(--muted-foreground)]">
-            Keep track of your daily tasks
+            Keep track of your daily tasks easily
           </p>
         </header>
 
