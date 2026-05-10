@@ -1,44 +1,33 @@
 "use client";
 
-import useSWR from "swr";
-import { fetchTasks, createTask, updateTask, deleteTask } from "@/lib/api";
+import { useState } from "react";
 import { AddTaskForm } from "@/components/add-task-form";
 import { TaskList } from "@/components/task-list";
-import { CheckSquare, Loader2 } from "lucide-react";
+import { CheckSquare } from "lucide-react";
+import { Task } from "@/lib/types";
 
 export default function Home() {
-  const {
-    data: tasks,
-    error,
-    isLoading,
-    mutate,
-  } = useSWR("tasks", fetchTasks, {
-    refreshInterval: 5000,
-  });
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  const handleAddTask = async (title: string, description: string) => {
-    const newTask = await createTask({
+  const handleAddTask = (title: string, description: string) => {
+    const newTask: Task = {
+      id: Date.now(),
       title,
       description,
       completed: false,
-    });
-    mutate([...(tasks || []), newTask], false);
+      createdAt: new Date().toISOString(),
+    };
+    setTasks((prev) => [...prev, newTask]);
   };
 
-  const handleToggleTask = async (id: number, completed: boolean) => {
-    await updateTask(id, { completed });
-    mutate(
-      tasks?.map((t) => (t.id === id ? { ...t, completed } : t)),
-      false
+  const handleToggleTask = (id: number, completed: boolean) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, completed } : t))
     );
   };
 
-  const handleDeleteTask = async (id: number) => {
-    await deleteTask(id);
-    mutate(
-      tasks?.filter((t) => t.id !== id),
-      false
-    );
+  const handleDeleteTask = (id: number) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
   return (
@@ -62,26 +51,13 @@ export default function Home() {
           <AddTaskForm onAdd={handleAddTask} />
         </div>
 
-        {isLoading ? (
-          <div className="flex items-center justify-center py-16">
-            <Loader2 className="h-8 w-8 animate-spin text-[var(--primary)]" />
-          </div>
-        ) : error ? (
-          <div className="rounded-lg border border-[var(--destructive)]/30 bg-[var(--destructive)]/10 p-4 text-center text-[var(--destructive)]">
-            <p>Failed to load tasks. Make sure the backend is running.</p>
-            <p className="mt-1 text-sm opacity-80">
-              Run &quot;node app.js&quot; in the project root
-            </p>
-          </div>
-        ) : (
-          <TaskList
-            tasks={tasks || []}
-            onToggle={handleToggleTask}
-            onDelete={handleDeleteTask}
-          />
-        )}
+        <TaskList
+          tasks={tasks}
+          onToggle={handleToggleTask}
+          onDelete={handleDeleteTask}
+        />
 
-        {tasks && tasks.length > 0 && (
+        {tasks.length > 0 && (
           <footer className="mt-8 text-center text-sm text-[var(--muted-foreground)]">
             {tasks.filter((t) => t.completed).length} of {tasks.length} tasks
             completed

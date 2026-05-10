@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 
 interface AddTaskFormProps {
-  onAdd: (title: string, description: string) => Promise<void>;
+  onAdd: (title: string, description: string) => void | Promise<void>;
 }
 
 export function AddTaskForm({ onAdd }: AddTaskFormProps) {
