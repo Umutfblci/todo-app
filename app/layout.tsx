@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Task Tracker",
-  description: "A simple task tracker to manage your daily tasks",
+  description: "A simple and beautiful task tracker to manage your daily tasks",
 };
 
 export default function RootLayout({
