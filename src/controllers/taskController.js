@@ -1,6 +1,5 @@
 const fs = require("fs");
-let tasks = JSON.parse(fs.readFileSync(`${__dirname}/../tasks.json`));
-
+let tasks = JSON.parse(fs.readFileSync(`${__dirname}/../../data/tasks.json`));
 exports.getAllTasks = (req, res) => {
   res.status(200).json({
     status: "succesful",
@@ -26,13 +25,17 @@ exports.addTask = (req, res) => {
 
   tasks.push(newTask);
 
-  fs.writeFile(`${__dirname}/../tasks.json`, JSON.stringify(tasks), (err) => {
-    if (err)
-      return res
-        .status(500)
-        .json({ status: "error", message: "Error writing file" });
-    res.status(201).json({ status: "success", data: { task: newTask } });
-  });
+  fs.writeFile(
+    `${__dirname}/../../data/tasks.json`,
+    JSON.stringify(tasks),
+    (err) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ status: "error", message: "Error writing file" });
+      res.status(201).json({ status: "success", data: { task: newTask } });
+    },
+  );
 };
 
 exports.deleteTask = (req, res) => {
@@ -44,7 +47,7 @@ exports.deleteTask = (req, res) => {
   }
 
   fs.writeFile(
-    `${__dirname}/../tasks.json`,
+    `${__dirname}/../../data/tasks.json`,
     JSON.stringify(updatedTasks),
     (err) => {
       if (err)
@@ -68,11 +71,17 @@ exports.patchTask = (req, res) => {
   const updatedTask = { ...tasks[index], ...req.body };
   tasks[index] = updatedTask;
 
-  fs.writeFile(`${__dirname}/../tasks.json`, JSON.stringify(tasks), (err) => {
-    if (err)
-      return res
-        .status(500)
-        .json({ status: "error", message: "Error writing file" });
-    res.status(200).json({ status: "successful", data: { task: updatedTask } });
-  });
+  fs.writeFile(
+    `${__dirname}/../../data/tasks.json`,
+    JSON.stringify(tasks),
+    (err) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ status: "error", message: "Error writing file" });
+      res
+        .status(200)
+        .json({ status: "successful", data: { task: updatedTask } });
+    },
+  );
 };

@@ -1,5 +1,5 @@
 const express = require("express");
-const taskController = require("./../controller/taskController");
+const taskController = require("../controllers/taskController");
 const app = express();
 app.use(express.json());
 
