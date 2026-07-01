@@ -8,7 +8,7 @@ exports.getAllTasks = (req, res) => {
   });
 };
 
-exports.getSingleTask = (req, res) => {
+exports.getTask = (req, res) => {
   const id = req.params.id * 1;
   const task = tasks.find((el) => el.id == id);
 
@@ -19,7 +19,7 @@ exports.getSingleTask = (req, res) => {
   res.status(200).json({ status: "succesful", data: { task } });
 };
 
-exports.addTask = (req, res) => {
+exports.createTask = (req, res) => {
   const lastID = tasks.length > 0 ? tasks[tasks.length - 1].id : 0;
   const newTask = Object.assign({ id: lastID + 1 }, req.body);
 
@@ -60,7 +60,7 @@ exports.deleteTask = (req, res) => {
   );
 };
 
-exports.patchTask = (req, res) => {
+exports.updateTask = (req, res) => {
   const targetParam = req.params.id * 1;
   const index = tasks.findIndex((el) => el.id == targetParam);
 
